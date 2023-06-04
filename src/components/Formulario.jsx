@@ -2,10 +2,10 @@ import { Form } from "react-bootstrap";
 import ListaNoticias from "./ListaNoticias";
 import { useState, useEffect } from "react";
 const Formulario = () => {
-  const [categoria, setCategoria] = useState("");
-  const [pais, setPais] = useState("");
+  const [categoria, setCategoria] = useState("business");
+  const [pais, setPais] = useState("ar");
   const [noticias, setNoticias] = useState([]);
-  const DEFAULT_PAIS = "Argentina";
+  const DEFAULT_PAIS = "ar";
   const KEY_PAISES = {
     Afghanistan: "af",
     Albania: "al",
@@ -162,24 +162,21 @@ const Formulario = () => {
     Zambia: "zm",
     Zimbabwe: "zw",
   };
-  const paisElegido = (pais) =>{
+  const paisElegido = (pais) => {
     const keyPais = KEY_PAISES[pais] ?? DEFAULT_PAIS;
     return keyPais;
-  }
+  };
   useEffect(() => {
-    consultarApi(categoria);
+    consultarApi();
   }, [categoria, pais]);
 
-  const consultarApi = async (categoria) => {
+  const consultarApi = async () => {
     try {
       const respuesta = await fetch(
-        "https://newsdata.io/api/1/news?apikey=pub_2390338fd0d756307ef040ecd26608655dde4&category=" +
-          categoria
+        `https://newsdata.io/api/1/news?apikey=pub_2390338fd0d756307ef040ecd26608655dde4&category=${categoria}&country=${pais}`
       );
       const dato = await respuesta.json();
       setNoticias(dato.results);
-      console.log(dato.results);
-      console.log(categoria);
     } catch (e) {
       console.log(e);
     }
@@ -189,14 +186,14 @@ const Formulario = () => {
       <Form className="container">
         <Form.Group
           className="row align-items-center"
-          controlId="formBasicEmail"
         >
           <div className="col-md-2">
-            <Form.Label>Buscar por categorias y pais:</Form.Label>
+            <Form.Label>Buscar por categorias: </Form.Label>
           </div>
-          <div className="col-md-5">
+          <div className="col-md-10">
             <Form.Select
               id="categoria"
+              name="categoria"
               value={categoria}
               onChange={(e) => {
                 setCategoria(e.target.value);
@@ -216,14 +213,17 @@ const Formulario = () => {
               <option>world</option>
             </Form.Select>
           </div>
-          <div className="col-md-5">
+        <div className="col-md-2">
+            <Form.Label>Buscar por pais: </Form.Label>
+          </div>
+          <div className="col-md-10">
             <Form.Select
               id="pais"
-               value={pais}
+              name="pais"
+              value={pais}
               onChange={(e) => {
-                const keyPais = paisElegido(e.target.value)
+                const keyPais = paisElegido(e.target.value.trim());
                 setPais(keyPais);
-                // consultarApi(categoria)
               }}
             >
               <option>Afghanistan</option>
@@ -231,6 +231,106 @@ const Formulario = () => {
               <option>Algeria</option>
               <option>Angola</option>
               <option>Argentina</option>
+              <option>Australia</option>
+              <option>Austria</option>
+              <option>Azerbaijan</option>
+              <option>Bahrain</option>
+              <option>Bangladesh</option>
+              <option>Barbados</option>
+              <option>Belarus</option>
+              <option>Belgium</option>
+              <option>Bermuda</option>
+              <option>Bhutan</option>
+              <option>Bolivia</option>
+              <option>BosniaAndHerzegovina</option>
+              <option>Brazil</option>
+              <option>Brunei</option>
+              <option>Bulgaria</option>
+              <option>Burkinafasco</option>
+              <option>Cambodia</option>
+              <option>Cameroon</option>
+              <option>Canada</option>
+              <option>CapeVerde</option>
+              <option>CaymanIslands</option>
+              <option>Chile</option>
+              <option>China</option>
+              <option>Colombia</option>
+              <option>Comoros</option>
+              <option>CostaRica</option>
+              <option>CôtedIvoire</option>
+              <option>Croatia</option>
+              <option>Cuba</option>
+              <option>Cyprus</option>
+              <option>Czechrepublic</option>
+              <option>Denmark</option>
+              <option>Djibouti</option>
+              <option>Dominica</option>
+              <option>Dominicanrepublic</option>
+              <option>DRCongo</option>
+              <option>Ecuador</option>
+              <option>Egypt</option>
+              <option>ElSalvador</option>
+              <option>Estonia</option>
+              <option>Ethiopia</option>
+              <option>Fiji</option>
+              <option>Finland</option>
+              <option>France</option>
+              <option>Frenchpolynesia</option>
+              <option>Gabon</option>
+              <option>Georgia</option>
+              <option>Germany</option>
+              <option>Ghana</option>
+              <option>Greece</option>
+              <option>Guatemala</option>
+              <option>Guinea</option>
+              <option>Haiti</option>
+              <option>Honduras</option>
+              <option>Hongkong</option>
+              <option>Hungary</option>
+              <option>Iceland</option>
+              <option>India</option>
+              <option>Indonesia</option>
+              <option>Iraq</option>
+              <option>Ireland</option>
+              <option>Israel</option>
+              <option>Italy</option>
+              <option>Jamaica</option>
+              <option>Japan</option>
+              <option>Jordan</option>
+              <option>Kazakhstan</option>
+              <option>Kenya</option>
+              <option>Kuwait</option>
+              <option>Kyrgyzstan</option>
+              <option>Latvia</option>
+              <option>Lebanon</option>
+              <option>Libya</option>
+              <option>Lithuania</option>
+              <option>Luxembourg</option>
+              <option>Macau</option>
+              <option>Macedonia</option>
+              <option>Madagascar</option>
+              <option>Malawi</option>
+              <option>Malaysia</option>
+              <option>Maldives</option>
+              <option>Mali</option>
+              <option>Malta</option>
+              <option>Mauritania</option>
+              <option>Mexico</option>
+              <option>Moldova</option>
+              <option>Mongolia</option>
+              <option>Montenegro</option>
+              <option>Morocco</option>
+              <option>Mozambique</option>
+              <option>Myanmar</option>
+              <option>Namibia</option>
+              <option>Nepal</option>
+              <option>Netherland</option>
+              <option>Newzealand</option>
+              <option>Niger</option>
+              <option>Nigeria</option>
+              <option>Northkorea</option>
+              <option>Norway</option>
+              <option>Oman</option>
             </Form.Select>
           </div>
         </Form.Group>
