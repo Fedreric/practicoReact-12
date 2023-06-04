@@ -1,10 +1,12 @@
-import { Form } from "react-bootstrap";
+import { Container, Form, Spinner } from "react-bootstrap";
 import ListaNoticias from "./ListaNoticias";
 import { useState, useEffect } from "react";
 const Formulario = () => {
   const [categoria, setCategoria] = useState("business");
   const [pais, setPais] = useState("ar");
   const [noticias, setNoticias] = useState([]);
+  const [spinner, setSpinner] = useState(false);
+
   const DEFAULT_PAIS = "ar";
   const KEY_PAISES = {
     Afghanistan: "af",
@@ -171,16 +173,27 @@ const Formulario = () => {
   }, [categoria, pais]);
 
   const consultarApi = async () => {
+    setSpinner(true);
     try {
       const respuesta = await fetch(
         `https://newsdata.io/api/1/news?apikey=pub_2390338fd0d756307ef040ecd26608655dde4&category=${categoria}&country=${pais}`
       );
       const dato = await respuesta.json();
       setNoticias(dato.results);
+      setSpinner(false);
     } catch (e) {
       console.log(e);
     }
   };
+
+  const mostrarSpiner = spinner?(
+    <Container className="my-5 text-center">
+      <Spinner animation="border" />;
+    </Container>
+  ):(
+    <ListaNoticias noticias={noticias}></ListaNoticias>
+  )
+
   return (
     <>
       <Form className="container">
@@ -336,7 +349,7 @@ const Formulario = () => {
         </Form.Group>
         <hr></hr>
       </Form>
-      <ListaNoticias noticias={noticias}></ListaNoticias>
+      {mostrarSpiner}
     </>
   );
 };
